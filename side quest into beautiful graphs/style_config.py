@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+"""
 # --- Colour palette ---
 COLORS = {
     'primary':    '#1f77b4',
@@ -12,6 +13,27 @@ COLORS = {
                    '#9467bd', '#8c564b',
                    '#e377c2', '#7f7f7f', 
                    '#bcbd22', '#17becf']
+}
+"""
+
+# --- Colour palette ---
+COLORS = {
+    'primary':    '#6aaed6',   
+    'secondary':  '#2171b5',   
+    'highlight':  '#c6dbef',   
+    'neutral':    '#8c8c8c',   
+    'palette':    [
+        '#084594',  
+        '#2171b5',  
+        '#4292c6',  
+        '#6aaed6',  
+        '#9ecae1',  
+        '#c6dbef',  
+        '#deebf7',  
+        '#f7fbff',  
+        '#3a8fc1',  
+        '#84c4dd',  
+    ]
 }
 
 # --- Typography & layout ---
