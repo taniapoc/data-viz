@@ -156,9 +156,12 @@ def n_labels_end(ax, bars, values, pad_frac=0.012):
 def stacked_barh_pct(counts, series, colors, title, xlabel='% of journals',
                      legend_order=None, legend_title=None, caption=None,
                      label_min=0.04, label_fn=None, width=12, ytick_labels=None,
+                     n_header=None, side_header=None, side_texts=None,
                      savepath=None):
     """100%-stacked horizontal bars. `counts` = DataFrame (rows = bars, top -> bottom;
-    columns include `series`, stacked left -> right). `colors` = {series: colour}."""
+    columns include `series`, stacked left -> right). `colors` = {series: colour}.
+    Optional: n_header (title over the n= column), side_header + side_texts
+    (a note column to the right of n=, one string per row)."""
     counts = counts[series]
     totals = counts.sum(axis=1)
     pct    = counts.div(totals, axis=0)
@@ -182,9 +185,21 @@ def stacked_barh_pct(counts, series, colors, title, xlabel='% of journals',
     ax.xaxis.set_major_formatter(mtick.PercentFormatter(xmax=1))
     ax.set_xlim(0, 1)
     ax.set_xlabel(xlabel)
-    ax.set_title(title)
+    ax.set_title(title, pad=40 if n_header else None)
     n_labels_pct(ax, totals)
     grey_unsure_ticklabels(ax, 'y')
+
+    tr = ax.get_yaxis_transform()
+    if n_header:
+        ax.text(1.01, -0.72, n_header, transform=tr, ha='left', va='center',
+                fontsize=DATA_FS + 1, fontweight='bold', clip_on=False)
+    if side_texts is not None:
+        for i, t in enumerate(side_texts):
+            ax.text(1.17, i, t, transform=tr, ha='left', va='center',
+                    fontsize=DATA_FS + 1, color='#2d2d2d', clip_on=False)
+        if side_header:
+            ax.text(1.17, -0.72, side_header, transform=tr, ha='left', va='center',
+                    fontsize=DATA_FS + 1, fontweight='bold', clip_on=False)
 
     strip_legend(fig, colors, legend_order or series, caption=caption, title=legend_title)
     if savepath:
@@ -203,7 +218,8 @@ mpl.rcParams.update({
     'axes.titlesize':        18,
     'axes.titleweight':      'bold',
     'axes.titlepad':         14,
-    'axes.labelsize':        14,
+    'axes.labelsize':        16,
+    'axes.labelpad':         14,
     'xtick.labelsize':       13,
     'ytick.labelsize':       13,
     'legend.frameon':        False,
